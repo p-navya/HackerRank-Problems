@@ -1,0 +1,37 @@
+import pandas as pd
+import numpy as np
+import math
+
+def custom_round(num, decimals=0):
+    factor = 10 ** decimals
+    return math.floor(num * factor + 0.5) / factor
+
+i = input()
+s = input()
+l = list(map(int, s.split(" ")))
+numbers_series = pd.Series(l)
+
+#Calculate the mean
+mean = numbers_series.mean()
+print(f"{custom_round(mean,1):.1f}")
+
+#Median
+print(f"{custom_round(numbers_series.median(),1):.1f}")
+
+#mode (which is a lsit)
+mode = numbers_series.mode()
+print(f"{mode[0]}")
+
+std = numbers_series.std(ddof=0)
+print(f"{custom_round(std,1):.1f}")
+
+
+#Find the critical value for a 95% confidence interval
+margin_of_error = 1.96 * (std / (len(numbers_series) ** 0.5))
+#margin_of_error = confidence_level * (std/(np.sqrt(len(numbers_series))))
+
+#Calculate the confidence interval
+lower_bound = mean - margin_of_error
+upper_bound = mean + margin_of_error
+
+print(f"{custom_round(lower_bound,1):.1f} {custom_round(upper_bound,1):.1f}")
