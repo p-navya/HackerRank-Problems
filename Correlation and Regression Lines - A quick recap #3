@@ -1,0 +1,17 @@
+def predict(x, y):
+    ex = sum(x) / len(x)
+    ey = sum(y) / len(y)
+    numerator = sum([(xi - ex) * (yi - ey) for xi, yi in zip(x, y)])
+    denominator = sum([(xi - ex)**2 for xi in x])
+    slope = numerator / denominator
+    intercept = ey - (slope * ex)
+    predict = slope * 10 + intercept
+    return predict
+
+if __name__ == '__main__':
+    feature_1 = "Physics Scores  15  12  8   8   7   7   7   6   5   3"
+    feature_2 = "History Scores  10  25  17  11  13  17  20  13  9   15"
+    feature_1 = [int(x) for x in feature_1.split() if x.isnumeric()]
+    feature_2 = [int(x) for x in feature_2.split() if x.isnumeric()]
+    result = predict(feature_1, feature_2)
+    print(f'{result:.3f}')
