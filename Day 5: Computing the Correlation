@@ -1,0 +1,32 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+def ppc(l1, l2):
+    mean_l1 = sum(l1) / len(l1)
+    mean_l2 = sum(l2) / len(l2)
+
+    dev_li1 = [x - mean_l1 for x in l1]
+    dev_li2 = [x - mean_l2 for x in l2]
+
+    sum_dev = 0
+    srq_sum_dev1 = 0
+    srq_sum_dev2 = 0
+    for i in range(len(dev_li1)):
+        sum_dev = sum_dev + (dev_li1[i] * dev_li2[i])
+        srq_sum_dev1 = srq_sum_dev1 + (dev_li1[i]*dev_li1[i])
+        srq_sum_dev2 = srq_sum_dev2 + (dev_li2[i]*dev_li2[i])
+
+
+    return sum_dev / (srq_sum_dev1 * srq_sum_dev2)**0.5
+
+n = int(input())
+m=[]
+p=[]
+c=[]
+for _ in range(n):
+    res = list(map(int, input().strip().split("\t")))
+    m.append(res[0])
+    p.append(res[1])
+    c.append(res[2])
+    
+print(round( ppc(m,p),2))
+print(round( ppc(p,c),2))
+print(round( ppc(c,m),2))
