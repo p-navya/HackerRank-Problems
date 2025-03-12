@@ -1,0 +1,36 @@
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+
+def read_input_data():
+    x_train,y_train = [],[]
+    with open('trainingdata.txt','r') as file:
+        data = [list(map(float, line.strip().split(','))) for line in file]
+    data = np.array(data)
+    # Identify minimum charge time for full charge
+    full_charge= 8.0
+    filtered_data = data[data[:,1]!=full_charge]
+    x_train = filtered_data[:, 0].reshape(-1, 1)  # Charging time
+    y_train=filtered_data[:, 1]  # Battery life
+
+    return x_train,y_train
+
+def prediction_model(x,y):
+    lr_model = LinearRegression()
+    lr_model.fit(x,y)
+    return lr_model
+
+def prediction(model,t):
+    return model.predict(np.array([[t]]))[0]
+    
+if __name__ == '__main__':
+    x_train,y_train = read_input_data()
+    lrr_model = prediction_model(x_train,y_train)
+    timeCharged = float(input().strip())
+    if timeCharged>4:
+        result = 8.00
+    else:
+        result = prediction(lrr_model,timeCharged)
+    print(round(result,2))
+ 
