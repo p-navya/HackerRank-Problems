@@ -1,0 +1,38 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+import numpy as np
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+
+# Read input values
+F, N = map(int, input().split())
+
+# Read training data
+X_train = []
+y_train = []
+for _ in range(N):
+    data = list(map(float, input().split()))
+    X_train.append(data[:-1])
+    y_train.append(data[-1])
+
+# Read test data
+T = int(input())
+X_test = [list(map(float, input().split())) for _ in range(T)]
+
+# Convert lists to NumPy arrays
+X_train = np.array(X_train)
+y_train = np.array(y_train)
+X_test = np.array(X_test)
+
+# Polynomial transformation (degree 3 as per problem statement)
+poly = PolynomialFeatures(degree=3)
+X_train_poly = poly.fit_transform(X_train)
+X_test_poly = poly.transform(X_test)
+
+# Train Polynomial Regression model
+model = LinearRegression()
+model.fit(X_train_poly, y_train)
+
+# Predict and print results
+predictions = model.predict(X_test_poly)
+for pred in predictions:
+    print(f"{pred:.2f}")
