@@ -1,0 +1,30 @@
+# Define sets of keywords for context
+computer_mouse_keywords = {"device", "input", "cursor", "click", "computer", "usb"}
+animal_keywords = {"tail", "genome", "species", "rodent", "postnatal", "mammal", "animal"}
+
+def classify_mouse(sentence):
+    # Convert sentence to lowercase
+    sentence = sentence.lower()
+
+    # Check if any of the computer mouse keywords are in the sentence
+    if any(keyword in sentence for keyword in computer_mouse_keywords):
+        return "computer-mouse"
+    
+    # Check if any of the animal keywords are in the sentence
+    if any(keyword in sentence for keyword in animal_keywords):
+        return "animal"
+    
+    # Default case (if no keyword is found, assume it's about the animal)
+    return "animal"
+
+def main():
+    # Read number of sentences
+    num_sentences = int(input())
+    
+    # Process each sentence
+    for _ in range(num_sentences):
+        sentence = input().strip()
+        print(classify_mouse(sentence))
+
+if __name__ == "__main__":
+    main()
