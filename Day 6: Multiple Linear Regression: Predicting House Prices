@@ -1,0 +1,38 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+import numpy as np
+
+# Read first line: F (features), N (houses with known prices)
+F, N = map(int, input().split())
+
+# Read the training data
+X_train = []
+y_train = []
+for _ in range(N):
+    data = list(map(float, input().split()))
+    X_train.append(data[:-1])  # All except last column (features)
+    y_train.append(data[-1])   # Last column (house price)
+
+# Read T (houses with unknown prices)
+T = int(input())
+
+# Read test feature data
+X_test = [list(map(float, input().split())) for _ in range(T)]
+
+# Convert lists to numpy arrays
+X_train = np.array(X_train)
+y_train = np.array(y_train)
+X_test = np.array(X_test)
+
+# Add a bias column of 1s to X_train and X_test (for b0 coefficient)
+X_train = np.c_[np.ones(N), X_train]
+X_test = np.c_[np.ones(T), X_test]
+
+# Compute Normal Equation: B = (X^T X)^-1 X^T Y
+B = np.linalg.inv(X_train.T @ X_train) @ X_train.T @ y_train
+
+# Predict prices
+y_pred = X_test @ B
+
+# Print output rounded to 2 decimal places
+for price in y_pred:
+    print(f"{price:.2f}")
